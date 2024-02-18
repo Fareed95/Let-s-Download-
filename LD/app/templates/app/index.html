@@ -1,42 +1,83 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
+    {%load static%}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'app/index.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/index.css' %}">
+  <title>Video Background</title>
+  <style>
+   
+    
+  </style>
 </head>
 <body>
-    <p id='head1' class='header'>Welcome to Let's Download 🙏</p>
-    <p id='head2' class='header'>It feels very tough to download yt videos and audios ???😥😵</p>
-    <p id='head3' class='header'>For you 🫂🫂 Presenting our web</p>
-    <p id='head4' class='header'>Simple and awesome all the time !!!🫰</p>
-    <p id='head5' class='header'>Enter your URL below 👇👇</p>
-    <div class="search-box">
-        <input type="text" class="input-search" placeholder="Type to Search...">
-        <button class="btn-search"onclick="expandSearch()"><i class="fas fa-search search-icon"></i></button>
-    </div>
-    <div class="button-container">
-        <button>Convert to mp3</button>
-        <button>Convert to mp4</button>
-    </div>
-    <div class='light x1'></div>
-    <div class='light x2'></div>
-    <div class='light x3'></div>
-    <div class='light x4'></div>
-    <div class='light x5'></div>
-    <div class='light x6'></div>
-    <div class='light x7'></div>
-    <div class='light x8'></div>
-    <div class='light x9'></div>
-    <script>
-        function expandSearch() {
-            document.querySelector('.input-search').focus();
+  <nav>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+  <video autoplay loop muted id="video-background">
+    <source src="{% static 'app/checkout.mp4' %}" type="video/mp4">
+    <!-- Add additional video formats if necessary -->
+    Your browser does not support the video tag.
+  </video>
+
+  <div id="video-content">
+    <h1 data-text= "Let's Download !!!">
+      Let's Download !!!</h1>
+      <div class="word"></div>
+  </div>
+  <script>
+    var words = ['Hi i like HTML', 'I also like css', 'Lorem ipsum dolor sit amet', ' consectetur adipiscing elit', 'sed do eiusmod tempor incididunt'],
+    part,
+    i = 0,
+    offset = 0,
+    len = words.length,
+    forwards = true,
+    skip_count = 0,
+    skip_delay = 15,
+    speed = 70;
+var wordflick = function () {
+  setInterval(function () {
+    if (forwards) {
+      if (offset >= words[i].length) {
+        ++skip_count;
+        if (skip_count == skip_delay) {
+          forwards = false;
+          skip_count = 0;
         }
-        
-    </script>
+      }
+    }
+    else {
+      if (offset == 0) {
+        forwards = true;
+        i++;
+        offset = 0;
+        if (i >= len) {
+          i = 0;
+        }
+      }
+    }
+    part = words[i].substr(0, offset);
+    if (skip_count == 0) {
+      if (forwards) {
+        offset++;
+      }
+      else {
+        offset--;
+      }
+    }
+    $('.word').text(part);
+  },speed);
+};
+
+$(document).ready(function () {
+  wordflick();
+});
+  </script>
 </body>
 </html>
