@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'app/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+    <p id='head1' class='header'>Welcome to Let's Download 🙏</p>
+    <p id='head2' class='header'>It feels very tough to download yt videos and audios ???😥😵</p>
+    <p id='head3' class='header'>For you 🫂🫂 Presenting our web</p>
+    <p id='head4' class='header'>Simple and awesome all the time !!!🫰</p>
+    <p id='head5' class='header'>Enter your URL below 👇👇</p>
+    <div class="search-box">
+        <input type="text" class="input-search" placeholder="Type to Search...">
+        <button class="btn-search"onclick="expandSearch()"><i class="fas fa-search search-icon"></i></button>
+    </div>
+    <div class="button-container">
+        <button>Convert to mp3</button>
+        <button>Convert to mp4</button>
+    </div>
+    <div class='light x1'></div>
+    <div class='light x2'></div>
+    <div class='light x3'></div>
+    <div class='light x4'></div>
+    <div class='light x5'></div>
+    <div class='light x6'></div>
+    <div class='light x7'></div>
+    <div class='light x8'></div>
+    <div class='light x9'></div>
+    <script>
+        function expandSearch() {
+            document.querySelector('.input-search').focus();
+        }
+        
+    </script>
+</body>
+</html>
