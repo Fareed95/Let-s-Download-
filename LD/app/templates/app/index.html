@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-    {%load static%}
 <head>
+  {%load static%}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="{% static 'app/index.css' %}">
   <title>Video Background</title>
   <style>
-   
-    
+    /* Your additional styles here */
   </style>
 </head>
 <body>
@@ -27,21 +26,48 @@
   </video>
 
   <div id="video-content">
-    <h1 data-text= "Let's Download !!!">
-      Let's Download !!!</h1>
-      
-    
-    
-    
+    <h1 data-text="Let's Download !!!">Let's Download !!!</h1>
   </div>
   <div class="search-box">
-        <h1>Enter your URL down </h1>
-        <form action = "..">
-        <button class="btn-search"><i class="fas fa-search"></i></button>
-        <input type="text" class="input-search" placeholder="Type to Search...">
-        <button class="button-53" role="submit">Button 53</button>
-        <button class="button-52" role="submit">Button 53</button>
-      </form>
-      </div>
+    <h1>Enter your URL down </h1>
+    <form id="downloadForm" method="post" action="/function1">{% csrf_token %}
+      <button class="btn-search" type="button" onclick="downloadAudio()"><i class="fas fa-search"></i></button>
+      <input name="text" id="urlInput" type="text" class="input-search" placeholder="Type to Search...">
+      <button name="audio" class="button-53" type="submit">CONVERT-mp3</button>
+      <button name="video" class="button-52" type="submit">CONVERT -mp4</button>
+    </form>
+  </div>
+
+  <script>
+    function downloadAudio() {
+      var url = document.getElementById('urlInput').value;
+      fetch('/function1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+        },
+        body: JSON.stringify({
+          text: url,
+          audio: 'on'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        var audio_url = data.audio_url;
+        if (audio_url) {
+          var a = document.createElement('a');
+          a.href = audio_url;
+          a.download = 'audio.mp3';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } else {
+          console.error('Error: Audio URL not received');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  </script>
 </body>
 </html>
