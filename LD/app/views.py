@@ -1,25 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse,FileResponse, JsonResponse
 import yt_dlp
-from pytube import YouTube
-import os 
 
+def download_video(link, format='mp4'):
+    ydl_opts = {}
 
-# Create your views here.
-def index(request):
-    return render(request, 'app/index.html')
-
-def function1(request):
-    text = request.POST.get('text', '')
-    audio = request.POST.get('audio', 'off')
-    video = request.POST.get('video', '')
-
-    if (audio!="None"):
-
-        # Specify the directory where you want to save the audio
-        output_directory = "/My downloaded audios"
-
-        # Set the options for yt_dlp to download only the audio in MP3 format
+    if format == 'mp3':
         ydl_opts = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -27,17 +11,19 @@ def function1(request):
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'outtmpl': f'{output_directory}/%(title)s.%(ext)s'
+            'ffmpeg_location': 'skip'  # Tell yt-dlp not to use ffmpeg
+        }
+    elif format == 'mp4':
+        ydl_opts = {
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+            'merge_output_format': 'mp4',
+            'ffmpeg_location': 'skip'  # Tell yt-dlp not to use ffmpeg
         }
 
-        # Download the audio
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl: 
-            ydl.download([text]) 
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([link])
 
-        return HttpResponse("audio is doownloaded succesfully")
-
-
-    if video:
-        return HttpResponse("Video download functionality will be added soon")
-
-
+if __name__ == "__main__":
+    link = input("Enter the YouTube link: ")
+    format_choice = input("Enter the format (mp4/mp3): ").lower()
+    download_video(link, format=format_choice)
